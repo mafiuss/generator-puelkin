@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Benigno Gutierrez",
+      "authorEmail": "mafiuss@pastichecollective.org",
+      "authorUrl": ""
+    }
+  }
+}

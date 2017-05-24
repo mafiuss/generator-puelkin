@@ -1,0 +1,7 @@
+class <%= componentNameCamel %> extends Polymer.Element
+  is: ->
+    return '<%= componentName %>'
+  constructor: ->
+    super()
+
+customElements.define <%= componentNameCamel %>.is, '<%= componentName %>'
