@@ -51,29 +51,8 @@ module.exports = class extends Generator
       @props
     )
 
-    @log "looking good, lets add the package.json scripts"
-
-    try
-      packagejson = @fs.readJSON 'package.json'
-
-      @log "your JSON file have: #{JSON.stringify(packagejson)}"
-
-      packagejson.scripts['pug'] = 'coffee --compile --bare opinionated/src && pug --pretty opinionated/src'
-      packagejson.scripts['fix'] = "find ./opinionated/src/ -name \"*.html\" -exec perl -pi -e \"s/(is|properties)\\(/static get \\1\\(/g\" '{}' \\;"
-      packagejson.scripts['transpile'] = "npm run pug && npm run fix && find ./opinionated/src -name '*.html' -exec mv {} src \\;"
-
-      @fs.writeJSON 'package.json', packagejson
-
-      @log "pug, fix and transpile scripts have been added to your package.json file"
-
-    catch error
-      @log "there was a problem reading your package.json file #{error}"
-
-
-
   install: ->
-    @npmInstall(['pug', 'stylus','coffeescript@next', 'jstransformer-stylus'], { 'save-dev': true })
-    @npmInstall(['pug-cli'], {"global": true})
+    # @npmInstall(['pug','stylus','coffeescript@next', 'jstransformer-stylus'], { 'save-dev': true });
     # @installDependencies()
     @log "now you can run:"
     @log "coffee --compile --bare opinionated/ && pug --pretty opinionated/src --out src/"

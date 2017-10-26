@@ -38,36 +38,16 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    var error, packagejson;
     mkdirp.sync(this.destinationPath('opinionated/src'));
     this.log(` componente ${this.props['componentName']}`);
     mkdirp.sync(this.destinationPath(`opinionated/src/${this.props['componentName']}`));
     this.log("yes!");
     this.fs.copyTpl(this.templatePath('component.pug.ejs'), this.destinationPath(`opinionated/src/${this.props['componentName']}/${this.props['componentName']}.pug`), this.props);
     this.fs.copyTpl(this.templatePath('component.styl.ejs'), this.destinationPath(`opinionated/src/${this.props['componentName']}/${this.props['componentName']}.styl`), this.props);
-    this.fs.copyTpl(this.templatePath('component.coffee.ejs'), this.destinationPath(`opinionated/src/${this.props['componentName']}/${this.props['componentName']}.coffee`), this.props);
-    this.log("looking good, lets add the package.json scripts");
-    try {
-      packagejson = this.fs.readJSON('package.json');
-      this.log(`your JSON file have: ${JSON.stringify(packagejson)}`);
-      packagejson.scripts['pug'] = 'coffee --compile --bare opinionated/src && pug --pretty opinionated/src';
-      packagejson.scripts['fix'] = "find ./opinionated/src/ -name \"*.html\" -exec perl -pi -e \"s/(is|properties)\\(/static get \\1\\(/g\" '{}' \\;";
-      packagejson.scripts['transpile'] = "npm run pug && npm run fix && find ./opinionated/src -name '*.html' -exec mv {} src \\;";
-      this.fs.writeJSON('package.json', packagejson);
-      return this.log("pug, fix and transpile scripts have been added to your package.json file");
-    } catch (error1) {
-      error = error1;
-      return this.log(`there was a problem reading your package.json file ${error}`);
-    }
+    return this.fs.copyTpl(this.templatePath('component.coffee.ejs'), this.destinationPath(`opinionated/src/${this.props['componentName']}/${this.props['componentName']}.coffee`), this.props);
   }
 
   install() {
-    this.npmInstall(['pug', 'stylus', 'coffeescript@next', 'jstransformer-stylus'], {
-      'save-dev': true
-    });
-    this.npmInstall(['pug-cli'], {
-      "global": true
-    });
     this.log("now you can run:");
     this.log("coffee --compile --bare opinionated/ && pug --pretty opinionated/src --out src/");
     return this.log("to compile your stuff");
