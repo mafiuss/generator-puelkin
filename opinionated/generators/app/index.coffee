@@ -59,7 +59,7 @@ module.exports = class extends Generator
       @log "your JSON file have: #{JSON.stringify(packagejson)}"
 
       packagejson.scripts['pug'] = 'coffee --compile --bare opinionated/src && pug --pretty opinionated/src'
-      packagejson.scripts['fix'] = "find ./opinionated/src/ -name \"*.html\" -exec perl -pi -e \"s/(is|properties)\\(/static get \\1\\(/g\" '{}' \\;"
+      packagejson.scripts['fix'] = "find ./opinionated/src/ -name \"*.html\" -exec perl -pi -e \"s/(is|properties|observers)\\(/static get \\1\\(/g\" '{}' \\;"
       packagejson.scripts['transpile'] = "npm run pug && npm run fix && find ./opinionated/src -name '*.html' -exec mv {} src \\;"
 
       @fs.writeJSON 'package.json', packagejson
